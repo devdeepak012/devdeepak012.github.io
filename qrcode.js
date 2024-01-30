@@ -211,8 +211,6 @@ var QRCode;
 			for (var row = 0; row < nCount; row++) {
 				for (var col = 0; col < nCount; col++) {
 					if (oQRCode.isDark(row, col)) {
-						// console.log("col - " + col + ", row - " + row);
-						
 						// var child = makeSVG("use", {"x": String(col), "y": String(row), "style":"opacity:0.5"});
 						// child.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#template")
 						// var child = makeSVG("circle", {"fill": "black", "cx": String(col + 0.5), "cy": String(row + 0.5), "r": "0.5", "style":"opacity:0.5"});
@@ -419,33 +417,16 @@ var QRCode;
 			_elImage.style.display = "none";
 			this.clear();
 			
-			var blockMode = true;
-			var toggle = true;
-			var rtoggle = true;
-			var stoggle = true;
-			var dBlockSize = 0;
-			// _oContext.globalAlpha = 0.2;
-			
 			//custom code
+			// _oContext.globalAlpha = 0.2;
 			this._htOption.detectionDimension = 7 * nWidth;
 			var dotEdgeGap = (_htOption.edgeGap % 25) / 10; // valid values for dotEdgeGap are between 0 and 24 (inclusive), when calculting radius
 			console.log("dotEdgeGap - " + dotEdgeGap);
 			for (var row = 0; row < nCount; row++) {
 				for (var col = 0; col < nCount; col++) {
 					var bIsDark = oQRCode.isDark(row, col);
-					// if (row > 0 && col > 2) {
-						// console.log(ceil(1.1));
-					// }
 					if ((row < 8 && col < 8) || (row < 8 && col > nCount - 9) || (row > nCount - 9 && col < 8)) {
 						continue;
-					}
-					if (blockMode){
-						if (bIsDark) {
-							dBlockSize++;
-							//console.log(dBlockSize)
-						} else {
-							blockMode = false;
-						}
 					}
 					
 					var nLeft = col * nWidth;
@@ -453,14 +434,6 @@ var QRCode;
 					_oContext.strokeStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
 					_oContext.lineWidth = 1;
 					_oContext.fillStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;					
-					// _oContext.fillStyle = "red"
-					// if (stoggle) {
-						// _oContext.fillStyle = "grey";
-						// stoggle = false;
-					// } else {
-						// _oContext.fillStyle = "purple";
-						// stoggle = true;
-					// }
 					// _oContext.fillRect(nLeft, nTop, nWidth, nHeight);
 					// _oContext.strokeRect(nLeft, nTop, nWidth, nHeight);
 					// console.log(nLeft + " " + (nLeft + nWidth));
@@ -477,13 +450,6 @@ var QRCode;
 					// _oContext.stroke();
 					
 					// 안티 앨리어싱 방지 처리
-					if (rtoggle) {
-						_oContext.strokeStyle = "red";
-						rtoggle = false;
-					} else {
-						_oContext.strokeStyle = "yellow";
-						rtoggle = true;
-					}
 					// _oContext.strokeRect(
 						// Math.floor(nLeft) + 0.5,
 						// Math.floor(nTop) + 0.5,
@@ -493,13 +459,6 @@ var QRCode;
 					// console.log("  " + (nLeft + 0.5) + " " + (nLeft + 0.5 + nRoundedWidth) + " " + nRoundedWidth);
 
 					// _oContext.strokeStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
-					if (toggle) {
-						_oContext.strokeStyle = "blue";
-						toggle = false;
-					} else {
-						_oContext.strokeStyle = "green";
-						toggle = true;
-					}
 					// _oContext.strokeRect(
 						// Math.ceil(nLeft) - 0.5,
 						// Math.ceil(nTop) - 0.5,
@@ -548,85 +507,6 @@ var QRCode;
 			drawDetectionPatterns(_oContext);
 			this.dataURL = this._elCanvas.toDataURL();
 			console.log("this.dataURL created");
-			
-			
-// let qr_size = 256;
-// const cropSize = Math.floor(qr_size / 3);
-// const canvas_size = Math.floor(qr_size + 2 * cropSize);
-// console.log(canvas_size);
-// const circle_x = Math.floor(canvas_size / 2);
-// const circle_y = Math.floor(canvas_size / 2);
-// // diagonal of circle will be hypotenuse of QR code square
-// const new_radius = Math.floor(Math.sqrt(2 * Math.pow(qr_size, 2)) / 2);
-
-// const canvas_div = document.getElementById("dv_canvas");
-// canvas_div.innerHTML = "";
-
-// const canvas = document.createElement("canvas");
-// canvas.id = "canvas";
-
-// canvas.width = canvas_size;
-// canvas.height = canvas_size;
-// canvas.style.zIndex = 8;
-// canvas.style.position = "absolute";
-// //canvas.style.border = "1px solid";
-// canvas_div.appendChild(canvas);
-// let image = new Image();
-// image.src = this.dataURL;
-  // image.onload = function () {
-    // console.log("Image loaded");
-    // const ctx = canvas.getContext("2d");
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // ctx.arc(circle_x, circle_x, new_radius, 0, 2 * Math.PI);
-	// ctx.fillStyle = "red";
-	// ctx.fill();
-    // ctx.clip();
-    // ctx.drawImage(
-    // image,
-    // 0,
-    // cropSize,
-    // qr_size,
-    // cropSize,
-    // cropSize,
-    // 0,
-    // qr_size,
-    // cropSize);
-
-    // ctx.drawImage(image, cropSize, cropSize);
-    // ctx.drawImage(
-    // image,
-    // 0,
-    // cropSize,
-    // qr_size,
-    // cropSize,
-    // cropSize,
-    // qr_size + cropSize,
-    // qr_size,
-    // cropSize);
-
-    // ctx.drawImage(
-    // image,
-    // cropSize,
-    // 0,
-    // cropSize,
-    // qr_size,
-    // 0,
-    // cropSize,
-    // cropSize,
-    // qr_size);
-
-    // ctx.drawImage(
-    // image,
-    // cropSize,
-    // 0,
-    // cropSize,
-    // qr_size,
-    // qr_size + cropSize,
-    // cropSize,
-    // cropSize,
-    // qr_size);
-
-  // };
 			
 			this._bIsPainted = true;
 		};
@@ -754,9 +634,7 @@ var QRCode;
 			height : 256,
 			typeNumber : 4,
 			colorDark : "#000000",
-			// colorDark : "#808080",
 			colorLight : "#ffffff",
-			// colorLight : "#d472bc",
 			correctLevel : QRErrorCorrectLevel.H,
 			//custom code
 			edgeGap : 5, // value between 0 and 24. This will be used as radius in arc() function. Values between 0 and 2.4 seems to work well for radius in this code. So this will be divided by 10 before being used in arc() function.
